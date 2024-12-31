@@ -1,5 +1,8 @@
 # Real-Time Product Notification System
 
+admin -> email : muhammadsahad2022@gmail.com
+         pass : Sahad321@
+
 A feature-rich, real-time product notification system that allows users to:
 
 1. **Subscribe to notifications for new products.**
