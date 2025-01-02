@@ -9,7 +9,6 @@ import { userLogout } from "../API/user";
 const Navbar = () => {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const user = useSelector(state => state.user)
-    console.log(user)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,13 +18,10 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            const result = await userLogout(); // This will make the API call to your backend
+            const result = await userLogout();
             if (result.message === "Logged out successfully") {
-                // Clear user data from Redux store
                 dispatch(setAuthenticationStatus(false));
                 dispatch(setUserDetails({ name: "", email: "" }));
-
-                // Show success toast and navigate to the login page
                 toast.success(result.message);
                 navigate("/login");
             }
@@ -34,23 +30,26 @@ const Navbar = () => {
             toast.error("Error logging out");
         }
     };
+
     return (
-        <nav className="flex justify-between items-center px-6 py-4 bg-gray-100 shadow-md fixed w-full top-0 left-0 z-10" style={{ height: "60px" }}>
+        <nav className="flex justify-between items-center px-6 py-4 bg-transparent backdrop-blur-sm fixed w-full top-0 left-0 z-10" style={{ height: "60px" }}>
             <div>
-                <h1 className="text-2xl font-bold text-blue-600">ShopAlert</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r bg-zinc-950 bg-clip-text text-transparent hover:from-blue-550 transition-all duration-300">
+                    ShopAlert
+                </h1>
             </div>
             <div>
                 {isAuthenticated ? (
                     <div
-                        className="flex items-center text-gray-600 cursor-pointer hover:text-blue-600"
+                        className="flex items-center text-gray-700 cursor-pointer hover:text-blue-500 transition-colors duration-300"
                         onClick={handleLogout}
                     >
                         <IoLogOut size={24} className="mr-2" />
-                        <span>Logout</span>
+                        <span className="font-medium">Logout</span>
                     </div>
                 ) : (
                     <button
-                        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                        className="px-6 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-500 rounded-lg hover:from-blue-600 hover:to-blue-800 transition-all duration-300 shadow-sm hover:shadow-md"
                         onClick={handleLogin}
                     >
                         Login
@@ -60,6 +59,5 @@ const Navbar = () => {
         </nav>
     );
 };
-
 
 export default Navbar;

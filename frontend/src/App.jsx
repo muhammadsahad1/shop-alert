@@ -11,13 +11,14 @@ import Signup from './pages/signup';
 import Login from './pages/Login';
 import Layout from './components/Layout';
 import NotificationHandler from './components/NotificationHandler';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketProvider>
-        <NotificationHandler />
+          <NotificationHandler />
           <Router>
             <Toaster />
             <Layout />
@@ -25,7 +26,7 @@ function App() {
               <Route path='/signup' element={<Signup />} />
               <Route path='/login' element={<Login />} />
               <Route path='/home' element={<Home />} />
-              {/* <Route path='/' element={<Landing />} /> */}
+              <Route path='/' element={<LandingPage />} />
             </Routes>
           </Router>
         </SocketProvider>
