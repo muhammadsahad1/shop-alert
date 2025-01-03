@@ -7,27 +7,32 @@ const Home = () => {
     const role = useSelector((state) => state.user.userRole);
 
     return (
-        <div className="flex flex-col justify-center items-center mt-24 px-4">
-            {role === "Admin" ? (
-                <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 ">
-                    <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-                        Admin Dashboard
-                    </h2>
-                    <p className="text-lg text-gray-600 mb-4 text-center font-semibold">
-                        Manage your product catalog efficiently by adding new products below.
-                    </p>
-                </div>
-            ) : (
-                <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6">
-                    <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
-                        Welcome to Our Product Store
-                    </h2>
-                    <p className="text-lg text-gray-600 mb-4 text-center font-semibold">
-                        Explore our catalog of amazing products below.
-                    </p>
-                </div>
-            )}
-            <ProductList />
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-24">
+            <div className="max-w-4xl mx-auto w-full flex flex-col md:flex-row justify-start">
+                {role === "Admin" ? (
+                    <div className="mb-8">
+                        <h2 className="text-zinc-950 text-3xl sm:text-4xl md:text-4xl font-bold leading-tight">
+                            Product Alerts Dashboard
+                        </h2>
+                        <p className="text-gray-600 mt-3">
+                            Manage product availability
+                        </p>
+                    </div>
+                ) : (
+                    <div className="mb-8">
+                        <h2 className="text-zinc-950 text-3xl sm:text-4xl md:text-4xl font-bold leading-tight">
+                            Product Alerts
+                        </h2>
+                        <p className="text-gray-600">
+                            Stay updated on product availability and price changes.
+                        </p>
+                    </div>
+                )}
+            </div>
+                
+            <div className="max-w-6xl mx-auto">
+                <ProductList />
+            </div>
         </div>
     );
 };

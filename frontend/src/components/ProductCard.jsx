@@ -1,25 +1,33 @@
 import React from 'react';
 
 const ProductCard = ({ product, onSubscribe, isSubscribed, isAdmin, onUpdate }) => (
-    <div className="bg-white rounded-lg border border-gray-100 p-5 hover:border-gray-200 transition-all">
-        <div className="space-y-2">
-            <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium text-gray-800 line-clamp-1">
-                    {product?.name}
-                </h3>
-                {isAdmin && (
-                    <button
-                        onClick={() => onUpdate(product)}
-                        className="px-4 py-2 text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
-                    >
-                        Update
-                    </button>
-                )}
-            </div>
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+        <div className="relative h-48 overflow-hidden">
+            <img
+                src={product?.image || "/api/placeholder/400/300"}
+                alt={product?.name}
+                className="w-full h-full object-cover"
+            />
+            {isAdmin && (
+                <button
+                    onClick={() => onUpdate(product)}
+                    className="absolute top-2 right-2 px-3 py-1 text-sm font-medium rounded-md bg-zinc-950 text-white hover:bg-zinc-900 transition-colors"
+                >
+                    Update
+                </button>
+            )}
+        </div>
+
+        <div className="p-4 space-y-3">
+            <h3 className="text-lg font-medium text-gray-800 line-clamp-1">
+                {product?.name}
+            </h3>
+
             <p className="text-sm text-gray-500 line-clamp-2">
                 {product?.description}
             </p>
-            <div className="pt-3 flex items-center justify-between border-t border-gray-50">
+
+            <div className="flex items-center justify-between pt-2">
                 <span className="text-lg font-medium text-blue-600">
                     ${product?.price}
                 </span>
@@ -27,12 +35,13 @@ const ProductCard = ({ product, onSubscribe, isSubscribed, isAdmin, onUpdate }) 
                     Stock: {product?.stock}
                 </span>
             </div>
+
             <button
                 onClick={() => onSubscribe(product._id)}
-                className={`w-full mt-3 px-4 py-2 text-sm font-medium rounded-md ${isSubscribed
+                className={`w-full px-4 py-2 text-sm font-medium rounded-lg transition-colors ${isSubscribed
                     ? 'text-red-600 bg-red-50 hover:bg-red-100'
                     : 'text-blue-600 bg-blue-50 hover:bg-blue-100'
-                    } transition-colors`}
+                    }`}
             >
                 {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
             </button>

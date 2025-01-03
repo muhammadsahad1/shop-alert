@@ -78,9 +78,9 @@ const SignupForm = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Sign Up</h2>
+        <div className="min-h-screen flex items-center justify-center ">
+            <div className="w-full max-w-md bg-white rounded-lg p-6">
+                <h2 className="text-2xl font-bold mb-6 text-center text-zinc-950">Sign Up</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
@@ -123,17 +123,19 @@ const SignupForm = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-zinc-900 text-white py-3 rounded-md hover:bg-zinc-800 transition duration-300"
+                        className="w-full bg-zinc-950 text-white py-3 rounded-md hover:bg-zinc-900 transition duration-300"
                         disabled={loading}
                     >
                         {loading ? 'Creating...' : 'Create Account'}
                     </button>
                 </form>
-                <button>
-                    <Link to="/login">
-                        <p>Login</p>
-                    </Link>
-                </button>
+                <div className='mt-4 flex justify-center font-semibold underline'>
+                    <button className='text-sm'>
+                        <Link to="/login">
+                            Log in
+                        </Link>
+                    </button>
+                </div>
             </div>
         </div>
     );

@@ -26,15 +26,18 @@ const NewProductsUpdatesBtn = ({ subscribeToNewProducts, unsubscribeFromNewProdu
     };
 
     return (
-        <button
-            onClick={handleSubscription}
-            className={` px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${subscribed
-                ? 'bg-red-500 text-white hover:bg-red-600'
-                : 'bg-blue-500 text-white hover:bg-blue-600'
-                }`}
-        >
-            {subscribed ? 'Unsubscribe' : 'Subscribe for Updates'}
-        </button>
+
+        <div className='flex justify-start ms-32'>
+            <button
+                onClick={handleSubscription}
+                className={` flex px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${subscribed
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-zinc-950 text-white hover:bg-zinc-900'
+                    }`}
+            >
+                {subscribed ? 'Unsubscribe' : 'Subscribe for Updates'}
+            </button>
+        </div>
     );
 };
 

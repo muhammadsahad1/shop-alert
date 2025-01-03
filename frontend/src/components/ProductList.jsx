@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useSocket } from '../context/SocketContext';
 import NewProductsUpdatesBtn from './NewProductsUpdatesBtn';
+import Bar from './Bar';
+import { X } from 'lucide-react';
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -57,30 +59,6 @@ const ProductList = () => {
         }
     };
 
-    // const handleSubscribe = async (productId) => {
-    //     if (subscribedProducts.has(productId)) {
-    //         unsubscribeFromProduct(productId);
-
-    //         await subscribeProduct(productId) // to store productId in database
-
-    //         setSubscribedProducts((prev) => {
-    //             const updated = new Set(prev);
-    //             updated.delete(productId);
-    //             return updated;
-    //         });
-
-    //         toast.success('Unsubscribed successfully');
-
-    //     } else {
-    //         subscribeToProduct(productId);
-
-    //         await subscribeProduct(productId)
-
-    //         setSubscribedProducts((prev) => new Set(prev).add(productId));
-    //         toast.success('Subscribed successfully');
-    //     }
-    // };
-
     const handleSubscribe = async (productId) => {
         try {
             if (subscribedProducts.has(productId)) {
@@ -96,12 +74,10 @@ const ProductList = () => {
 
                 toast.success('Unsubscribed successfully');
             } else {
-                // First emit the socket event
+
                 subscribeToProduct(productId);
-                // Then update the database
                 setSubscribedProducts((prev) => new Set(prev).add(productId));
                 await subscribeProduct(productId);
-                // Then update local state
                 toast.success('Subscribed successfully');
             }
         } catch (error) {
@@ -174,21 +150,33 @@ const ProductList = () => {
 
     return (
         <div>
-            {role === "Admin" ? <AddProduct onProductAdded={fetchProducts} /> : <div className='mt-10 flex justify-center items-center'><NewProductsUpdatesBtn subscribeToNewProducts={handleNewProductSubscribe} unsubscribeFromNewProducts={handleNewProductUnSubscribe} isSubscribed={isSubscribedToNewProducts} /></div>}
+            {role === "Admin" ? (
+                <AddProduct onProductAdded={fetchProducts} />
+            ) : (
+                <NewProductsUpdatesBtn
+                    subscribeToNewProducts={handleNewProductSubscribe}
+                    unsubscribeFromNewProducts={handleNewProductUnSubscribe}
+                    isSubscribed={isSubscribedToNewProducts}
+                />
+            )}
+            <Bar />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
                 {products.length === 0 ? (
                     <div>No products available</div>
                 ) : (
-                    products.map((product) => (
-                        <ProductCard
-                            key={product._id}
-                            product={product}
-                            onSubscribe={handleSubscribe}
-                            isSubscribed={subscribedProducts.has(product._id)}
-                            isAdmin={role === "Admin"}
-                            onUpdate={() => handleUpdateClick(product)}
-                        />
-                    ))
+                    <>
+
+                        {products.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                product={product}
+                                onSubscribe={handleSubscribe}
+                                isSubscribed={subscribedProducts.has(product._id)}
+                                isAdmin={role === "Admin"}
+                                onUpdate={() => handleUpdateClick(product)}
+                            />
+                        ))}
+                    </>
                 )}
             </div>
 
@@ -201,17 +189,40 @@ const ProductList = () => {
                         className="bg-white p-6 rounded-xl w-[28rem] shadow-lg relative"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {/* Close Button */}
                         <button
                             onClick={() => setModalOpen(false)}
                             className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
                         >
-                            ✖
+                            <X size={20} />
                         </button>
 
                         <h2 className="text-xl font-medium mb-6">Update Product</h2>
 
                         <form onSubmit={handleUpdateSubmit} className="space-y-5">
+                            <div className="mb-4">
+                                <label className="block text-sm text-gray-600 mb-1.5">
+                                    Product Image
+                                </label>
+                                <div className="flex items-center gap-4">
+                                    <div className="w-24 h-24 border rounded-lg overflow-hidden bg-gray-50">
+                                        <img
+                                            src={currentProduct?.image || "/api/placeholder/96/96"}
+                                            alt="Product preview"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <input
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            accept="image/*"
+                                            onChange={handleInputChange}
+                                            className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                             <div>
                                 <label htmlFor="name" className="block text-sm text-gray-600 mb-1.5">
                                     Product Name

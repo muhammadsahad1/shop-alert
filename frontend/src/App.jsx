@@ -12,6 +12,8 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import NotificationHandler from './components/NotificationHandler';
 import LandingPage from './pages/LandingPage';
+import ProtectRoute from './route/ProtectRoute';
+import PublicRoute from './route/PublicRoute';
 
 function App() {
   return (
@@ -23,10 +25,15 @@ function App() {
             <Toaster />
             <Layout />
             <Routes>
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/home' element={<Home />} />
-              <Route path='/' element={<LandingPage />} />
+              <Route element={<PublicRoute />}>
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/' element={<LandingPage />} />
+              </Route>
+
+              <Route element={<ProtectRoute />}>
+                <Route path='/home' element={<Home />} />
+              </Route>
             </Routes>
           </Router>
         </SocketProvider>

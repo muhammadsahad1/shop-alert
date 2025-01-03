@@ -1,8 +1,16 @@
 import axiosInstance from "../Axios";
 
-export const createProduct = async (productData) => {
+export const createProduct = async (formData) => {
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
     try {
-        const response = await axiosInstance.post('/product', productData)
+        const response = await axiosInstance.post('/product', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
         console.log(response)
         return response.data
     } catch (error) {
