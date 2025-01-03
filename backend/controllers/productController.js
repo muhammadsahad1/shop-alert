@@ -1,34 +1,37 @@
 import Product from "../models/Product.js";
 
-export const createProduct = async (req, res) => {
+export const getProducts = async (req, res) => {
     try {
-        const { name, description, price, stock } = req.body;
-
-        // Validate input
-        if (!name || !price) {
-            return res.status(400).json({ message: 'Please provide all required fields' });
-        }
-
-        const newProduct = new Product({
-            name,
-            description,
-            price,
-            stock,
-        });
-
-        const savedProduct = await newProduct.save();
-        res.status(201).json({ message: "Product create successfully", savedProduct });
+        const products = await Product.find();
+        res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
 };
 
 
-export const getProducts = async (req, res) => {
+export const createProduct = async (req, res) => {
     try {
-        const products = await Product.find();
-        res.status(200).json(products);
+        const { name, description, price, stock } = req.body;
+
+        if (!name || !price) {
+            return res.status(400).json({ message: 'Please provide all required fields' });
+        }
+
+        const image = req.file ? req.file.path : null;
+
+        const newProduct = new Product({
+            name,
+            description,
+            price,
+            stock,
+            image,
+        });
+
+        const savedProduct = await newProduct.save();
+        res.status(201).json({ message: "Product created successfully", savedProduct });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -45,19 +48,23 @@ export const updateProduct = async (req, res) => {
             return res.status(404).json({ message: 'Product not found' });
         }
 
+        const image = req.file ? req.file.path : product.image;
+
         // Update product fields
         product.name = name || product.name;
         product.description = description || product.description;
         product.price = price || product.price;
         product.stock = stock || product.stock;
+        product.image = image;
 
+        // Save the updated product
         const updatedProduct = await product.save();
         res.status(200).json(updatedProduct);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
-
 
 export const deleteProduct = async (req, res) => {
     try {
